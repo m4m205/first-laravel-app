@@ -128,7 +128,7 @@ class ListController extends Controller
 
 	public function destroy_item(Request $request, $listId, $itemId)
 	{
-		// Make sure logged in user is owner
+		// Make sure logged in user is owner.
 		// if($listing->user_id != auth()->id()) {
 		//     abort(403, 'Unauthorized Action');
 		// }
