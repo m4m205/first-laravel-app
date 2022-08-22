@@ -65,7 +65,7 @@ class ListController extends Controller
 
 			return response()->json([
 				'message' => 'list created successfully',
-				'data' => $request,
+				'data' => $list,
 				'status' => '200',
 			]);
 		} catch (\Exception $e) {
@@ -95,7 +95,7 @@ class ListController extends Controller
 
 				return response()->json([
 					'message' => 'item created successfully',
-					'data' => $request,
+					'data' => $item,
 					'status' => '200',
 				]);
 			} else {
