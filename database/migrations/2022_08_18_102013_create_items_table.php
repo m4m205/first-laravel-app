@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('list_id')->constrained('todolists')->onDelete('cascade');
             $table->string('name');
-            $table->tinyInteger('completed')->default('0');;
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }

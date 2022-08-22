@@ -9,6 +9,8 @@ class todoitem extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'completed'];
+
     // Relationship To todolist
     public function user()
     {

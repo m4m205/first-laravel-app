@@ -88,7 +88,7 @@ class ListController extends Controller
 				$item = new todoitem;
 				$item->name = $request->name;
 				$item->list_id = $id;
-				$item->completed = '0';
+				$item->completed = false;
 				$item->created_at = Carbon::now();
 				$item->updated_at = Carbon::now();
 				$item->save();
@@ -118,12 +118,21 @@ class ListController extends Controller
 		//     abort(403, 'Unauthorized Action');
 		// }
 
-		todolist::where('id', $id)->firstorfail()->delete();
-		return response()->json([
-			'message' => 'list deleted successfully',
-			'data' => $id,
-			'status' => '200',
-		]);
+		try {
+			todolist::where('id', $id)->firstorfail()->delete();
+			return response()->json([
+				'message' => 'list deleted successfully',
+				'data' => $id,
+				'status' => '200',
+			]);
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => 'error in delete list',
+				'data' => $request,
+				'status' => '401',
+				'4' => $e
+			]);
+		}
 	}
 
 	public function destroy_item(Request $request, $listId, $itemId)
@@ -133,19 +142,69 @@ class ListController extends Controller
 		//     abort(403, 'Unauthorized Action');
 		// }
 
-		if (
-			todolist::where('id', $listId)
-			->orderBy('id')
-			->get()->count() === 1
-		) {
-			todoitem::where('id', $itemId)->firstorfail()->delete();
+		try {
+			if (
+				todolist::where('id', $listId)
+				->orderBy('id')
+				->get()->count() === 1
+			) {
+				todoitem::where('id', $itemId)->firstorfail()->delete();
+				return response()->json([
+					'message' => 'item deleted successfully',
+					'data' => $itemId,
+					'status' => '200',
+				]);
+			} else {
+				throw new Exception('list not exist');
+			};
+		} catch (\Exception $e) {
 			return response()->json([
-				'message' => 'item deleted successfully',
-				'data' => $itemId,
-				'status' => '200',
+				'message' => 'error in delete item',
+				'data' => $request,
+				'status' => '401',
+				'4' => $e
 			]);
-		} else {
-			throw new Exception('list not exist');
-		};
+		}
+	}
+
+	public function update_item(Request $request, $listId, $itemId)
+	{
+		// Make sure logged in user is owner.
+		// if($listing->user_id != auth()->id()) {
+		//     abort(403, 'Unauthorized Action');
+		// }
+
+		try {
+			if (
+				todolist::where('id', $listId)
+				->orderBy('id')
+				->get()->count() === 1
+			) {
+
+				$item = todoitem::find($itemId);
+				if ($request->name) {
+					$item->name = $request->name;
+				} elseif ($request->completed) {
+					$item->completed = $request->completed;
+				}
+
+				$item->update();
+
+				return response()->json([
+					'message' => 'item updated successfully',
+					'data' => $request,
+					'status' => '200',
+				]);
+			} else {
+				throw new Exception('list not exist');
+			};
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => 'error in update item',
+				'data' => $request,
+				'status' => '401',
+				'4' => $e
+			]);
+		}
 	}
 }

@@ -25,3 +25,4 @@ Route::Post('/list/', [ListController::class, 'store_list']);
 Route::Post('/list/{listId}', [ListController::class, 'store_item']);
 Route::Delete('/list/{listId}', [ListController::class, 'destroy_list']);
 Route::Delete('/list/{listId}/{itemId}', [ListController::class, 'destroy_item']);
+Route::Patch('/list/{listId}/{itemId}', [ListController::class, 'update_item']);
