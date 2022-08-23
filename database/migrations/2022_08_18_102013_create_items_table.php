@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('todoItems', function (Blueprint $table) {
+        Schema::create('todoitems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('list_id')->constrained('todolists')->onDelete('cascade');
+            $table->foreignId('list_id')->constrained('todos')->onDelete('cascade');
             $table->string('name');
             $table->boolean('completed')->default(false);
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todoItems');
+        Schema::dropIfExists('todoitems');
     }
 };

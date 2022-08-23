@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\todolist;
+use App\Models\todo;
 use App\Models\todoitem;
 use Carbon\Carbon;
 use Error;
@@ -12,7 +12,7 @@ class ListController extends Controller
 {
 	public function index(Request $request)
 	{
-		// $list = new todolist;
+		// $list = new todo;
 		// $list->name = 'first list for test';
 		// $list->created_at = Carbon::now();
 		// $list->updated_at = Carbon::now();
@@ -23,7 +23,7 @@ class ListController extends Controller
 		// 	'data' => $list,
 		// 	'status' => '200',
 		// ]);
-		return response()->json(['data' => todolist::all()]);
+		return response()->json(['data' => todo::all()]);
 	}
 
 	public function show(Request $request, $id)
@@ -45,7 +45,7 @@ class ListController extends Controller
 		// ]);
 		// return response()->json(['data' => $list, 'items' => []]);
 
-		$resList = todolist::where('id', $id)
+		$resList = todo::where('id', $id)
 			->orderBy('id')
 			->get()->first();
 		$resItems =  todoitem::where('list_id', $id)->orderBy('id')
@@ -57,7 +57,7 @@ class ListController extends Controller
 	public function store_list(Request $request)
 	{
 		try {
-			$list = new todolist;
+			$list = new todo;
 			$list->name = $request->name;
 			$list->created_at = Carbon::now();
 			$list->updated_at = Carbon::now();
@@ -81,7 +81,7 @@ class ListController extends Controller
 	{
 		try {
 			if (
-				todolist::where('id', $id)
+				todo::where('id', $id)
 				->orderBy('id')
 				->get()->count() === 1
 			) {
@@ -119,7 +119,7 @@ class ListController extends Controller
 		// }
 
 		try {
-			todolist::where('id', $id)->firstorfail()->delete();
+			todo::where('id', $id)->firstorfail()->delete();
 			return response()->json([
 				'message' => 'list deleted successfully',
 				'data' => $id,
@@ -144,7 +144,7 @@ class ListController extends Controller
 
 		try {
 			if (
-				todolist::where('id', $listId)
+				todo::where('id', $listId)
 				->orderBy('id')
 				->get()->count() === 1
 			) {
@@ -176,7 +176,7 @@ class ListController extends Controller
 
 		try {
 			if (
-				todolist::where('id', $listId)
+				todo::where('id', $listId)
 				->orderBy('id')
 				->get()->count() === 1
 			) {

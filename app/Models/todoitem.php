@@ -11,9 +11,9 @@ class todoitem extends Model
 
     protected $fillable = ['name', 'completed'];
 
-    // Relationship To todolist
-    public function user()
+    // Relationship To todo
+    public function todo()
     {
-        return $this->belongsTo(todolist::class, 'list_id');
+        return $this->belongsTo(todo::class, 'list_id');
     }
 }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\todolist;
+use App\Models\todo;
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@gmail.com',
         ]);
 
-        $list = new todolist;
+        $list = new todo;
         $list->name = 'first list';
         $list->created_at = Carbon::now();
         $list->updated_at = Carbon::now();
