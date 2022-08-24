@@ -12,39 +12,11 @@ class ListController extends Controller
 {
 	public function index(Request $request)
 	{
-		// $list = new todo;
-		// $list->name = 'first list for test';
-		// $list->created_at = Carbon::now();
-		// $list->updated_at = Carbon::now();
-		// $list->save();
-
-		// return response()->json([
-		// 	'message' => 'list created successfully',
-		// 	'data' => $list,
-		// 	'status' => '200',
-		// ]);
 		return response()->json(['data' => todo::all()]);
 	}
 
 	public function show(Request $request, $id)
 	{
-
-		// $item = new todoitem;
-		// $item->name = 'second item for test';
-		// $item->list_id = 1;
-		// $item->completed = false;
-
-		// $item->created_at = Carbon::now();
-		// $item->updated_at = Carbon::now();
-		// $item->save();
-
-		// return response()->json([
-		//     'message' => 'item created successfully',
-		//     'data' => $item,
-		//     'status' => '200',
-		// ]);
-		// return response()->json(['data' => $list, 'items' => []]);
-
 		$resList = todo::where('id', $id)
 			->orderBy('id')
 			->get()->first();
@@ -99,7 +71,7 @@ class ListController extends Controller
 					'status' => '200',
 				]);
 			} else {
-				throw new Exception('list not exist');
+				throw new \Exception('list not exist');
 			};
 		} catch (\Exception $e) {
 			return response()->json([
@@ -155,7 +127,7 @@ class ListController extends Controller
 					'status' => '200',
 				]);
 			} else {
-				throw new Exception('list not exist');
+				throw new \Exception('list not exist');
 			};
 		} catch (\Exception $e) {
 			return response()->json([
@@ -176,15 +148,13 @@ class ListController extends Controller
 
 		try {
 			if (
-				todo::where('id', $listId)
-				->orderBy('id')
-				->get()->count() === 1
+				todo::where('id', $listId)->get()->count() === 1
 			) {
-
 				$item = todoitem::find($itemId);
-				if ($request->name) {
+				if (isset($request->name)) {
 					$item->name = $request->name;
-				} elseif ($request->completed) {
+				}
+				if (isset($request->completed)) {
 					$item->completed = $request->completed;
 				}
 
@@ -192,11 +162,11 @@ class ListController extends Controller
 
 				return response()->json([
 					'message' => 'item updated successfully',
-					'data' => $request,
+					'data' => $item,
 					'status' => '200',
 				]);
 			} else {
-				throw new Exception('list not exist');
+				throw new \Exception('list not exist');
 			};
 		} catch (\Exception $e) {
 			return response()->json([

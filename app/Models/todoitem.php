@@ -10,6 +10,7 @@ class todoitem extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'completed'];
+    protected $casts = ['completed' => 'boolean'];
 
     // Relationship To todo
     public function todo()
